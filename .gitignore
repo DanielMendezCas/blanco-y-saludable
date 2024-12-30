@@ -1,0 +1,61 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node modules
+node_modules
+
+# Build outputs
+dist
+build
+dist-ssr
+*.local
+
+# Testing
+coverage
+
+# Environment variables
+.env
+.env.*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Temporary files
+*.tmp
+*.temp
+
+# Dependency directories
+.npm
+.pnp
+.pnp.js
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Misc
+*.log
+*.pid
+*.pid.lock
+
+# React-specific
+public/*.cache
+public/*.map
+
+# Ignore README explicitly (if desired)
+README.md
