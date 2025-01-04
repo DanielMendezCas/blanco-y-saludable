@@ -6,6 +6,7 @@ import {
   IoMdClipboard,
   IoIosCalendar,
   IoIosStats,
+  IoMdPaper,
 } from "react-icons/io";
 
 const NavList = styled.ul`
@@ -64,27 +65,34 @@ function MainNav() {
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="./appointment">
-            <IoIosCalendar />
-            Citas
-          </StyledNavLink>
-        </li>
-        <li>
           <StyledNavLink to="./patients">
             <IoIosMan />
             Pacientes
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="./settings">
-            <IoMdSettings />
-            Ajustes
+          <StyledNavLink to="./appointment">
+            <IoIosCalendar />
+            Citas
+          </StyledNavLink>
+        </li>
+
+        <li>
+          <StyledNavLink to="./prescription">
+            <IoMdPaper />
+            Recetas
           </StyledNavLink>
         </li>
         <li>
           <StyledNavLink to="./treatment">
             <IoMdClipboard />
             Tratamientos
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="./settings">
+            <IoMdSettings />
+            Ajustes
           </StyledNavLink>
         </li>
       </NavList>

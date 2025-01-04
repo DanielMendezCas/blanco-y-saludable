@@ -34,7 +34,7 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
-function BookingRow({
+function AppointmentRow({
   booking: {
     id: bookingId,
     created_at,
@@ -83,4 +83,4 @@ function BookingRow({
   );
 }
 
-export default BookingRow;
+export default AppointmentRow;
