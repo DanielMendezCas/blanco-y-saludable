@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import LoginForm from "../features/authentication/LoginForm";
-import Logo from "../ui/Logo";
+import SignupForm from "../features/authentication/SignupForm";
 import Heading from "../ui/Heading";
+import Logo from "../ui/Logo";
 import { useNavigate } from "react-router-dom";
 
-const LoginLayout = styled.main`
+const SignUpLayout = styled.main`
   min-height: 100vh;
   display: grid;
   grid-template-columns: 48rem;
@@ -14,7 +14,7 @@ const LoginLayout = styled.main`
   background-color: var(--color-grey-0);
 `;
 
-const CreateAccount = styled.p`
+const ReturnLogin = styled.p`
   margin: 0;
   font-size: 1.4rem;
   color: var(--color-primary);
@@ -27,18 +27,18 @@ const CreateAccount = styled.p`
   }
 `;
 
-function Login() {
+function Signup() {
   const navigate = useNavigate();
   return (
-    <LoginLayout>
+    <SignUpLayout>
       <Logo />
-      <Heading as="h4">Iniciar sesión</Heading>
-      <CreateAccount onClick={() => navigate("/signup")}>
-        O crea una cuenta
-      </CreateAccount>
-      <LoginForm />
-    </LoginLayout>
+      <Heading as="h4">Crear cuenta</Heading>
+      <ReturnLogin onClick={() => navigate("/login")}>
+        ¿Ya tienes una cuenta?, inicia sesión
+      </ReturnLogin>
+      <SignupForm />
+    </SignUpLayout>
   );
 }
 
-export default Login;
+export default Signup;

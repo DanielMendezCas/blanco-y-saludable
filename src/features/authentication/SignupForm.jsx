@@ -1,36 +1,99 @@
+import { useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
-import FormRow from "../../ui/FormRow";
+import FormRowVertical from "../../ui/FormRowVertical";
 import Input from "../../ui/Input";
-
-// Email regex: /\S+@\S+\.\S+/
+import { useSignUp } from "./useSignup";
 
 function SignupForm() {
+  const { register, formState, getValues, handleSubmit, reset } = useForm();
+  const { errors } = formState;
+  const { signUp, isLoading } = useSignUp();
+
+  function onSubmit({ fullName, email, password }) {
+    signUp(
+      { fullName, email, password },
+      {
+        onSettled: reset,
+      }
+    );
+  }
+
   return (
-    <Form>
-      <FormRow label="Full name" error={""}>
-        <Input type="text" id="fullName" />
-      </FormRow>
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <FormRowVertical
+        label="Nombre completo"
+        error={errors?.fullName?.message}
+      >
+        <Input
+          type="text"
+          id="fullName"
+          disabled={isLoading}
+          {...register("fullName", { required: "Este campo es necesario" })}
+        />
+      </FormRowVertical>
 
-      <FormRow label="Email address" error={""}>
-        <Input type="email" id="email" />
-      </FormRow>
+      <FormRowVertical label="Correo" error={errors?.email?.message}>
+        <Input
+          type="email"
+          id="email"
+          disabled={isLoading}
+          {...register("email", {
+            required: "Este campo es necesario",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Por favor, ingrese una dirección de correo válida",
+            },
+          })}
+        />
+      </FormRowVertical>
 
-      <FormRow label="Password (min 8 characters)" error={""}>
-        <Input type="password" id="password" />
-      </FormRow>
+      <FormRowVertical
+        label="Contraseña (minímo 8 carácteres)"
+        error={errors?.password?.message}
+      >
+        <Input
+          type="password"
+          id="password"
+          disabled={isLoading}
+          {...register("password", {
+            required: "Este campo es necesario",
+            minLength: {
+              value: 8,
+              message: "La contraseña debe tener al menos 8 carácteres",
+            },
+          })}
+        />
+      </FormRowVertical>
 
-      <FormRow label="Repeat password" error={""}>
-        <Input type="password" id="passwordConfirm" />
-      </FormRow>
+      <FormRowVertical
+        label="Repetir contraseña"
+        error={errors?.passwordConfirm?.message}
+      >
+        <Input
+          type="password"
+          id="passwordConfirm"
+          disabled={isLoading}
+          {...register("passwordConfirm", {
+            required: "Este campo es necesario",
+            validate: (value) =>
+              value === getValues().password ||
+              "Las contraseñas deben de coincidir",
+          })}
+        />
+      </FormRowVertical>
 
-      <FormRow>
-        {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
-          Cancel
+      <FormRowVertical>
+        <Button
+          variation="secondary"
+          type="reset"
+          disabled={isLoading}
+          onClick={reset}
+        >
+          Cancelar
         </Button>
-        <Button>Create new user</Button>
-      </FormRow>
+        <Button disabled={isLoading}>Crear cuenta</Button>
+      </FormRowVertical>
     </Form>
   );
 }
