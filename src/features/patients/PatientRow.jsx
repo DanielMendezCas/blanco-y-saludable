@@ -4,8 +4,8 @@ import { deletePatient } from "../../services/apiPatients";
 import toast from "react-hot-toast";
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1.5fr 1fr 2fr 2fr 0.5fr; /* Ajusta los valores según la prioridad */
-  column-gap: 1.5rem; /* Reduce la separación para mayor compactación */
+  grid-template-columns: 1.7fr 2.2fr 1fr 2.5fr 2fr 1fr;
+  column-gap: 1.5rem;
   align-items: center;
   padding: 1.2rem 1.5rem;
 

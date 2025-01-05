@@ -50,13 +50,12 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
-function AppointmentRow({
-  appointment: {
+function TreatmentRow({
+  treatment: {
     id: id,
-    fecha,
-    hora,
-    motivo,
-    estatus,
+    nombre_tratamiento,
+    notas,
+    estado,
     precio,
     pacientes: { nombre, apellido, correo } = {},
   },
@@ -66,7 +65,7 @@ function AppointmentRow({
     false: "red",
   };
 
-  const formattedEstatus = estatus ? "Confirmado" : "No confirmado";
+  const formattedEstatus = estado ? "Confirmado" : "No confirmado";
 
   return (
     <Table.Row>
@@ -76,15 +75,12 @@ function AppointmentRow({
         <span>{correo}</span>
       </Patient>
 
-      <Stacked>{fecha}</Stacked>
-      <Stacked>{hora}</Stacked>
-      <Stacked>{motivo}</Stacked>
-
-      <Tag type={statusToTagName[estatus]}>{formattedEstatus}</Tag>
-
+      <Stacked>{nombre_tratamiento}</Stacked>
+      <Tag type={statusToTagName[estado]}>{formattedEstatus}</Tag>
       <Amount>{formatCurrency(precio)}</Amount>
+      <Stacked>{notas}</Stacked>
     </Table.Row>
   );
 }
 
-export default AppointmentRow;
+export default TreatmentRow;

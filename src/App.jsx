@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
-import Settings from "./pages/Settings";
+import Payments from "./pages/Payments";
 import PageNotFound from "./pages/PageNotFound";
 import Appointment from "./pages/Appointment";
 import Patients from "./pages/Patients";
@@ -47,8 +47,8 @@ function App() {
               <Route path="account" element={<Account />} />
               <Route path="appointment" element={<Appointment />} />
               <Route path="patients" element={<Patients />} />
+              <Route path="payments" element={<Payments />} />
               <Route path="treatment" element={<Treatment />} />
-              <Route path="settings" element={<Settings />} />
               <Route path="users" element={<NewUsers />} />
               <Route path="prescription" element={<Prescription />} />
             </Route>

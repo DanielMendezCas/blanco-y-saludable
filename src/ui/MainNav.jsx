@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import {
-  IoMdSettings,
+  IoMdCash,
   IoIosMan,
   IoMdClipboard,
   IoIosCalendar,
@@ -61,7 +61,7 @@ function MainNav() {
         <li>
           <StyledNavLink to="./dashboard">
             <IoIosStats />
-            Rendimiento
+            Ingresos
           </StyledNavLink>
         </li>
         <li>
@@ -84,15 +84,15 @@ function MainNav() {
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="./treatment">
-            <IoMdClipboard />
-            Tratamientos
+          <StyledNavLink to="./payments">
+            <IoMdCash />
+            Pagos
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="./settings">
-            <IoMdSettings />
-            Ajustes
+          <StyledNavLink to="./treatment">
+            <IoMdClipboard />
+            Tratamientos
           </StyledNavLink>
         </li>
       </NavList>

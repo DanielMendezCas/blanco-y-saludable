@@ -45,7 +45,7 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function CreatePatientForm() {
+function CreatePatientForm({ onCloseModal }) {
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation({
@@ -65,7 +65,10 @@ function CreatePatientForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit(submit)}>
+    <Form
+      onSubmit={handleSubmit(submit)}
+      type={onCloseModal ? "modal" : "regular"}
+    >
       <FormRow>
         <Label htmlFor="name">Nombre</Label>
         <Input type="text" id="nombre" {...register("nombre")} />
@@ -101,8 +104,11 @@ function CreatePatientForm() {
       </FormRow>
 
       <FormRow>
-        {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button
+          variation="secondary"
+          type="reset"
+          onClick={() => onCloseModal?.()}
+        >
           Cancelar
         </Button>
         <Button disabled={isLoading}>Agregar paciente</Button>

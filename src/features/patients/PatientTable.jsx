@@ -1,61 +1,35 @@
-import { useQuery } from "@tanstack/react-query";
-import styled from "styled-components";
-import getPatients from "../../services/apiPatients";
+import Menus from "../../ui/Menus";
 import Spinner from "../../ui/Spinner";
+import Empty from "../../ui/Empty";
+import Table from "../../ui/Table";
 import PatientRow from "./PatientRow";
-
-// eslint-disable-next-line no-unused-vars
-const Table = styled.div`
-  border: 1px solid var(--color-grey-200);
-  font-size: 1.4rem;
-  background-color: var(--color-grey-50);
-  border-radius: 7px;
-  overflow: hidden;
-`;
-
-// eslint-disable-next-line no-unused-vars
-const TableHeader = styled.header`
-  display: grid;
-  grid-template-columns: 0fr 1fr 1.8fr 2fr 1.8fr 1fr 2fr;
-  column-gap: 1.5rem;
-  align-items: center;
-  background-color: var(--color-grey-00); /* Agregar un color más notable */
-  border-bottom: 2px solid var(--color-blue-300); /* Línea más gruesa */
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--color-blue-700);
-  padding: 1.5rem 1.5rem;
-`;
+import usePatients from "./usePatients";
 
 function PatientTable() {
-  const {
-    isLoading,
-    data: patients,
-    error,
-  } = useQuery({
-    queryKey: ["pacientes"],
-    queryFn: getPatients,
-  });
+  const { patients, isLoading } = usePatients();
+  if (isLoading) return <Spinner />;
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-
+  if (!patients.length) return <Empty resource="pacientes" />;
   return (
-    <Table role="table">
-      <TableHeader role="row">
-        <div></div>
-        <div>Nombre</div>
-        <div>Apellido</div>
-        <div>Edad</div>
-        <div>Correo</div>
-        <div>Telefono</div>
-        <div></div>
-      </TableHeader>
-      {patients.map((patient) => (
-        <PatientRow patient={patient} key={patient.id} />
-      ))}
-    </Table>
+    <Menus>
+      <Table columns="1.9fr 2.6fr 2.4fr 2fr 1.6fr 2fr">
+        <Table.Header>
+          <div>Nombre</div>
+          <div>Apellido</div>
+          <div>Edad</div>
+          <div>Correo</div>
+          <div>Telefono</div>
+          <div></div>
+        </Table.Header>
+
+        <Table.Body
+          data={patients}
+          render={(patient) => (
+            <PatientRow key={patient.id} patient={patient} />
+          )}
+        />
+      </Table>
+    </Menus>
   );
 }
 
