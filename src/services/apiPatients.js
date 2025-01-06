@@ -24,6 +24,7 @@ export async function deletePatient(IdPatient) {
 
   return data;
 }
+
 export async function createPatient(newPatient) {
   const { data, error } = await supabase.from("pacientes").insert([newPatient]);
 

@@ -2,12 +2,12 @@ import styled from "styled-components";
 import Tag from "../../ui/Tag";
 import { formatCurrency } from "../../utils/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deletePayment } from "../../services/apiPayments";
 import toast from "react-hot-toast";
-import { deleteTreatment } from "../../services/apiTreatments";
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 3.3fr 3fr 3fr 2fr 2.5fr 1fr;
+  grid-template-columns: 3.5fr 2.2fr 1.5fr 2fr 3fr 2fr 3.9fr 1fr;
   column-gap: 1.5rem;
   align-items: center;
   padding: 1.2rem 1.5rem;
@@ -77,30 +77,33 @@ const DeleteButton = styled.button`
   }
 `;
 
-function TreatmentRow({
-  treatment: {
+function PaymentRow({
+  payment: {
     id: id,
-    nombre_tratamiento,
-    notas,
+    fecha,
+    hora,
     estado,
-    precio,
+    metodo,
+    monto,
+    concepto,
     pacientes: { nombre, apellido, correo } = {},
   },
 }) {
   const statusToTagName = {
-    Finalizado: "green",
-    Cancelado: "red",
-    "En curso": "blue",
+    true: "green",
+    false: "red",
   };
+
+  const formattedEstatus = estado ? "Realizado" : "Cancelado";
 
   const queryClient = useQueryClient();
 
   const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: (id) => deleteTreatment(id),
+    mutationFn: (id) => deletePayment(id),
     onSuccess: () => {
       toast.success("Pago eliminado correctamente");
       queryClient.invalidateQueries({
-        queryKey: ["tratamientos"],
+        queryKey: ["pagos"],
       });
     },
     onError: () => toast.error("La cita no se ha podido eliminar"),
@@ -113,11 +116,12 @@ function TreatmentRow({
         <span>{apellido}</span>
         <span>{correo}</span>
       </Patient>
-
-      <Stacked>{nombre_tratamiento}</Stacked>
-      <Tag type={statusToTagName[estado]}>{estado}</Tag>
-      <Amount>{formatCurrency(precio)}</Amount>
-      <Stacked>{notas}</Stacked>
+      <Stacked>{fecha}</Stacked>
+      <Stacked>{hora}</Stacked>
+      <Tag type={statusToTagName[estado]}>{formattedEstatus}</Tag>
+      <Stacked>{metodo}</Stacked>
+      <Amount>{formatCurrency(monto)}</Amount>
+      <Stacked>{concepto}</Stacked>
       <DeleteButton onClick={() => mutate(id)} disabled={isDeleting}>
         Borrar
       </DeleteButton>
@@ -125,4 +129,4 @@ function TreatmentRow({
   );
 }
 
-export default TreatmentRow;
+export default PaymentRow;

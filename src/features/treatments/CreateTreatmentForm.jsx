@@ -1,13 +1,13 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import getPatients from "../../services/apiPatients";
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
-import { createAppointment } from "../../services/apiAppointment";
-import toast from "react-hot-toast";
-import Form from "../../ui/Form";
 import Input from "../../ui/Input";
+import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import Textarea from "../../ui/Textarea";
+import { useForm } from "react-hook-form";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createTreatment } from "../../services/apiTreatments";
+import toast from "react-hot-toast";
+import getPatients from "../../services/apiPatients";
 
 const FormRow = styled.div`
   display: grid;
@@ -39,7 +39,13 @@ const FormRow = styled.div`
 const Label = styled.label`
   font-weight: 500;
 `;
-function CreateAppointmentForm({ onCloseModal }) {
+
+const Error = styled.span`
+  font-size: 1.4rem;
+  color: var(--color-red-700);
+`;
+
+function CreateTreatmentForm({ onCloseModal }) {
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
 
@@ -47,13 +53,12 @@ function CreateAppointmentForm({ onCloseModal }) {
     queryKey: ["pacientes"],
     queryFn: getPatients,
   });
-
   const { mutate, isLoading } = useMutation({
-    mutationFn: createAppointment,
+    mutationFn: createTreatment,
     onSuccess: () => {
-      toast.success("Cita realizada correctamente");
+      toast.success("Tratamiento registrado correctamente");
       queryClient.invalidateQueries({
-        queryKey: ["citas"],
+        queryKey: ["tratamientos"],
       });
       reset();
     },
@@ -61,16 +66,15 @@ function CreateAppointmentForm({ onCloseModal }) {
   });
 
   function submit(data) {
-    const appointmentData = {
+    const treatmentData = {
       id_paciente: data.paciente,
-      estatus: data.estatus === "true",
-      fecha: data.fecha,
-      hora: data.hora,
-      motivo: data.motivo || null,
+      nombre_tratamiento: data.nombre_tratamiento,
+      estado: data.estado,
       precio: parseFloat(data.precio),
+      notas: data.notas || null,
     };
 
-    mutate(appointmentData);
+    mutate(treatmentData);
   }
 
   return (
@@ -95,29 +99,24 @@ function CreateAppointmentForm({ onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="estatus">Estado</Label>
-        <select id="estatus" {...register("estatus")} defaultValue="">
+        <Label htmlFor="tratamiento">Tratamiento</Label>
+        <Input
+          type="tratamiento"
+          id="tratamiento"
+          {...register("nombre_tratamiento")}
+        />
+      </FormRow>
+
+      <FormRow>
+        <Label htmlFor="estado">Estado</Label>
+        <select id="estado" {...register("estado")} defaultValue="">
           <option value="" disabled>
             Selecciona un estatus
           </option>
-          <option value="true">Confirmada</option>
-          <option value="false">No Confirmada</option>
+          <option value="finalizado">Finalizado</option>
+          <option value="cancelado">Cancelado</option>
+          <option value="en curso">En curso</option>
         </select>
-      </FormRow>
-
-      <FormRow>
-        <Label htmlFor="date">Fecha</Label>
-        <Input type="date" id="fecha" {...register("fecha")} />
-      </FormRow>
-
-      <FormRow>
-        <Label htmlFor="hora">Hora</Label>
-        <Input type="text" id="hora" {...register("hora")} />
-      </FormRow>
-
-      <FormRow>
-        <Label htmlFor="motivo">Motivo</Label>
-        <Textarea id="motivo" {...register("motivo")} />
       </FormRow>
 
       <FormRow>
@@ -132,6 +131,11 @@ function CreateAppointmentForm({ onCloseModal }) {
       </FormRow>
 
       <FormRow>
+        <Label htmlFor="notas">Notas</Label>
+        <Textarea id="notas" {...register("notas")} />
+      </FormRow>
+
+      <FormRow>
         <Button
           variation="secondary"
           type="reset"
@@ -139,10 +143,10 @@ function CreateAppointmentForm({ onCloseModal }) {
         >
           Cancelar
         </Button>
-        <Button disabled={isLoading}>Añadir cita</Button>
+        <Button disabled={isLoading}>Registrar tratamiento</Button>
       </FormRow>
     </Form>
   );
 }
 
-export default CreateAppointmentForm;
+export default CreateTreatmentForm;

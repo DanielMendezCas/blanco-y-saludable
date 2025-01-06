@@ -1,13 +1,12 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import getPatients from "../../services/apiPatients";
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
-import { createAppointment } from "../../services/apiAppointment";
-import toast from "react-hot-toast";
-import Form from "../../ui/Form";
 import Input from "../../ui/Input";
+import Form from "../../ui/Form";
 import Button from "../../ui/Button";
-import Textarea from "../../ui/Textarea";
+import { useForm } from "react-hook-form";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { createPayment } from "../../services/apiPayments";
+import getPatients from "../../services/apiPatients";
 
 const FormRow = styled.div`
   display: grid;
@@ -39,7 +38,13 @@ const FormRow = styled.div`
 const Label = styled.label`
   font-weight: 500;
 `;
-function CreateAppointmentForm({ onCloseModal }) {
+
+const Error = styled.span`
+  font-size: 1.4rem;
+  color: var(--color-red-700);
+`;
+
+function CreatePaymentForm({ onCloseModal }) {
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
 
@@ -49,11 +54,11 @@ function CreateAppointmentForm({ onCloseModal }) {
   });
 
   const { mutate, isLoading } = useMutation({
-    mutationFn: createAppointment,
+    mutationFn: createPayment,
     onSuccess: () => {
-      toast.success("Cita realizada correctamente");
+      toast.success("Pago registrado correctamente");
       queryClient.invalidateQueries({
-        queryKey: ["citas"],
+        queryKey: ["pagos"],
       });
       reset();
     },
@@ -61,16 +66,17 @@ function CreateAppointmentForm({ onCloseModal }) {
   });
 
   function submit(data) {
-    const appointmentData = {
+    const paymentData = {
       id_paciente: data.paciente,
-      estatus: data.estatus === "true",
       fecha: data.fecha,
       hora: data.hora,
-      motivo: data.motivo || null,
-      precio: parseFloat(data.precio),
+      estado: data.estado,
+      metodo: data.metodo,
+      monto: parseFloat(data.monto),
+      concepto: data.concepto || null,
     };
 
-    mutate(appointmentData);
+    mutate(paymentData);
   }
 
   return (
@@ -95,17 +101,6 @@ function CreateAppointmentForm({ onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="estatus">Estado</Label>
-        <select id="estatus" {...register("estatus")} defaultValue="">
-          <option value="" disabled>
-            Selecciona un estatus
-          </option>
-          <option value="true">Confirmada</option>
-          <option value="false">No Confirmada</option>
-        </select>
-      </FormRow>
-
-      <FormRow>
         <Label htmlFor="date">Fecha</Label>
         <Input type="date" id="fecha" {...register("fecha")} />
       </FormRow>
@@ -116,19 +111,35 @@ function CreateAppointmentForm({ onCloseModal }) {
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="motivo">Motivo</Label>
-        <Textarea id="motivo" {...register("motivo")} />
+        <Label htmlFor="estado">Estado</Label>
+        <select id="estado" {...register("estado")} defaultValue="">
+          <option value="" disabled>
+            Selecciona un estado
+          </option>
+          <option value="true">Confirmado</option>
+          <option value="false">Cancelado</option>
+        </select>
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="precio">Precio</Label>
+        <Label htmlFor="metodo">Metodo</Label>
+        <Input type="text" id="metodo" {...register("metodo")} />
+      </FormRow>
+
+      <FormRow>
+        <Label htmlFor="monto">Monto</Label>
         <Input
           type="number"
-          id="precio"
-          {...register("precio", { required: true, min: 0 })}
-          placeholder="Ingresa el precio"
+          id="monto"
+          {...register("monto", { required: true, min: 0 })}
+          placeholder="Ingresa el monto"
           step="0.01"
         />
+      </FormRow>
+
+      <FormRow>
+        <Label htmlFor="concepto">Concepto</Label>
+        <Input type="concepto" id="concepto" {...register("concepto")} />
       </FormRow>
 
       <FormRow>
@@ -139,10 +150,10 @@ function CreateAppointmentForm({ onCloseModal }) {
         >
           Cancelar
         </Button>
-        <Button disabled={isLoading}>Añadir cita</Button>
+        <Button disabled={isLoading}>Registrar pago</Button>
       </FormRow>
     </Form>
   );
 }
 
-export default CreateAppointmentForm;
+export default CreatePaymentForm;

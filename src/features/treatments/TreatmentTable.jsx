@@ -12,7 +12,7 @@ function TreatmentTable() {
   if (!treatments.length) return <Empty resource="tratamientos" />;
   return (
     <Menus>
-      <Table columns="2fr 1.5fr 1.5fr 1.4fr 1.4fr">
+      <Table columns="2.2fr 2.2fr 2fr 2fr 2fr">
         <Table.Header>
           <div>Paciente</div>
           <div>Tratamiento</div>

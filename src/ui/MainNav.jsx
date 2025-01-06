@@ -76,13 +76,6 @@ function MainNav() {
             Citas
           </StyledNavLink>
         </li>
-
-        <li>
-          <StyledNavLink to="./prescription">
-            <IoMdPaper />
-            Recetas
-          </StyledNavLink>
-        </li>
         <li>
           <StyledNavLink to="./payments">
             <IoMdCash />
@@ -93,6 +86,12 @@ function MainNav() {
           <StyledNavLink to="./treatment">
             <IoMdClipboard />
             Tratamientos
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="./prescription">
+            <IoMdPaper />
+            Recetas
           </StyledNavLink>
         </li>
       </NavList>

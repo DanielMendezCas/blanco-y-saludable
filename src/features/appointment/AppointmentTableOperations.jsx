@@ -6,11 +6,11 @@ function AppointmentTableOperations() {
   return (
     <TableOperations>
       <Filter
-        filterField="status"
+        filterField="estatus"
         options={[
           { value: "Todas", label: "Todas" },
-          { value: "Confirmadas", label: "Confirmadas" },
-          { value: "No confirmadas", label: "No confirmadas" },
+          { value: true, label: "Confirmadas" },
+          { value: false, label: "No confirmadas" },
         ]}
       />
 

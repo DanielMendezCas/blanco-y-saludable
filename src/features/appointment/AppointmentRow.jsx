@@ -1,9 +1,21 @@
 import styled from "styled-components";
-
 import Tag from "../../ui/Tag";
-import Table from "../../ui/Table";
-
 import { formatCurrency } from "../../utils/helpers";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteAppointment } from "../../services/apiAppointment";
+import toast from "react-hot-toast";
+
+const TableRow = styled.div`
+  display: grid;
+  grid-template-columns: 2.9fr 1.9fr 2fr 2.4fr 2fr 1.3fr 1fr;
+  column-gap: 1.5rem;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-grey-100);
+  }
+`;
 
 const Patient = styled.div`
   font-family: "Sono";
@@ -50,6 +62,21 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
+const DeleteButton = styled.button`
+  background-color: var(--color-red-700);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+
+  &:disabled {
+    background-color: var(--color-grey-400);
+    cursor: not-allowed;
+  }
+`;
+
 function AppointmentRow({
   appointment: {
     id: id,
@@ -68,8 +95,21 @@ function AppointmentRow({
 
   const formattedEstatus = estatus ? "Confirmado" : "No confirmado";
 
+  const queryClient = useQueryClient();
+
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: (id) => deleteAppointment(id),
+    onSuccess: () => {
+      toast.success("Cita eliminada correctamente");
+      queryClient.invalidateQueries({
+        queryKey: ["citas"],
+      });
+    },
+    onError: () => toast.error("La cita no se ha podido eliminar"),
+  });
+
   return (
-    <Table.Row>
+    <TableRow role="table">
       <Patient>
         <span>{nombre} </span>
         <span>{apellido}</span>
@@ -83,7 +123,10 @@ function AppointmentRow({
       <Tag type={statusToTagName[estatus]}>{formattedEstatus}</Tag>
 
       <Amount>{formatCurrency(precio)}</Amount>
-    </Table.Row>
+      <DeleteButton onClick={() => mutate(id)} disabled={isDeleting}>
+        Borrar
+      </DeleteButton>
+    </TableRow>
   );
 }
 

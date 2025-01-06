@@ -1,9 +1,11 @@
 import supabase from "./supabase";
 
-export default async function getAppointments() {
-  const { data, error } = await supabase
-    .from("citas")
-    .select("*, pacientes(*)");
+export default async function getAppointments({ filter, sortBy }) {
+  let query = supabase.from("citas").select("*, pacientes(*)");
+
+  if (filter != null) query = query.eq(filter.field, filter.value);
+
+  const { data, error } = await query;
 
   if (error) {
     console.error(error);
@@ -26,7 +28,7 @@ export async function createAppointment(newAppointment) {
 
 export async function deleteAppointment(IdAppointment) {
   const { data, error } = await supabase
-    .from("tratamientos")
+    .from("citas")
     .delete()
     .eq("id", IdAppointment);
 

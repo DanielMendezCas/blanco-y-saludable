@@ -12,13 +12,13 @@ function AppointmentTable() {
   if (!appointments.length) return <Empty resource="citas" />;
   return (
     <Menus>
-      <Table columns="2fr 1.5fr 1.5fr 1.4fr 1.4fr 11rem">
+      <Table columns="2fr 1.2fr 1.5fr 1.8fr 1.2fr 18rem">
         <Table.Header>
           <div>Paciente</div>
           <div>Fecha</div>
           <div>Hora</div>
           <div>Motivo</div>
-          <div>Estatus</div>
+          <div>Estado</div>
           <div>Precio</div>
           <div></div>
         </Table.Header>
