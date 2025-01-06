@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 3.5fr 2.2fr 1.5fr 2fr 3fr 2fr 3.9fr 1fr;
+  grid-template-columns: 3.5fr 2.2fr 1.5fr 2.2fr 2fr 2.5fr 3.9fr 1fr;
   column-gap: 1.5rem;
   align-items: center;
   padding: 1.2rem 1.5rem;

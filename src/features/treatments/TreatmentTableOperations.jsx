@@ -6,23 +6,23 @@ function TreatmentTableOperations() {
   return (
     <TableOperations>
       <Filter
-        filterField="status"
+        filterField="estado"
         options={[
           { value: "Todos", label: "Todos" },
-          { value: "Finalizado", label: "Finalizado" },
-          { value: "Cancelado", label: "Cancelado" },
-          { value: "En curso", label: "En curso" },
+          { value: "finalizado", label: "Finalizado" },
+          { value: "cancelado", label: "Cancelado" },
+          { value: "en curso", label: "En curso" },
         ]}
       />
 
       <SortBy
         options={[
           {
-            value: "totalPrice-desc",
+            value: "precio-desc",
             label: "Ordenar por costo (descendente)",
           },
           {
-            value: "totalPrice-asc",
+            value: "precio-asc",
             label: "Ordenar por costo (ascendente)",
           },
         ]}

@@ -8,14 +8,10 @@ function PatientTableOperations() {
       <SortBy
         options={[
           {
-            value: "orderName",
+            value: "nombre-desc",
             label: "Ordenar por nombre",
           },
-          { value: "orderLastName", label: "Ordenar por apellido" },
-          {
-            value: "orderAge",
-            label: "Ordenar por edad",
-          },
+          { value: "apellido-desc", label: "Ordenar por apellido" },
         ]}
       />
     </TableOperations>

@@ -17,16 +17,16 @@ function AppointmentTableOperations() {
       <SortBy
         options={[
           {
-            value: "startDate-desc",
+            value: "fecha-asc",
             label: "Ordenar por fecha (más proximas)",
           },
-          { value: "startDate-asc", label: "Ordenar por fecha (más lejanas)" },
+          { value: "fecha-desc", label: "Ordenar por fecha (más lejanas)" },
           {
-            value: "totalPrice-desc",
+            value: "precio-desc",
             label: "Ordenar por precio (descendente)",
           },
           {
-            value: "totalPrice-asc",
+            value: "precio-asc",
             label: "Ordenar por precio (ascendente)",
           },
         ]}

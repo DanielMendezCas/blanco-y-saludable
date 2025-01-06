@@ -38,20 +38,20 @@ const FormRow = styled.div`
 const Label = styled.label`
   font-weight: 500;
 `;
-
 const Error = styled.span`
   font-size: 1.4rem;
   color: var(--color-red-700);
 `;
-
 function CreatePaymentForm({ onCloseModal }) {
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
 
-  const { data: pacientes, isLoading: isLoadingPacientes } = useQuery({
+  const { data: pacientesData, isLoading: isLoadingPacientes } = useQuery({
     queryKey: ["pacientes"],
     queryFn: getPatients,
   });
+
+  const pacientes = pacientesData?.data;
 
   const { mutate, isLoading } = useMutation({
     mutationFn: createPayment,

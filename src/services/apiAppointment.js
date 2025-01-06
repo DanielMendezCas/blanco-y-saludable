@@ -1,18 +1,32 @@
+import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 
-export default async function getAppointments({ filter, sortBy }) {
-  let query = supabase.from("citas").select("*, pacientes(*)");
+export default async function getAppointments({ filter, sortBy, page }) {
+  let query = supabase.from("citas").select("*, pacientes(*)", {
+    count: "exact",
+  });
 
   if (filter != null) query = query.eq(filter.field, filter.value);
 
-  const { data, error } = await query;
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
+
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     console.error(error);
-    throw new error("No se han podido cargar las citas");
+    throw new Error("No se han podido cargar las citas");
   }
 
-  return data;
+  return { data, count };
 }
 
 export async function createAppointment(newAppointment) {

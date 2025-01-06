@@ -4,9 +4,10 @@ import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import usePayments from "./usePayments";
 import Spinner from "../../ui/Spinner";
+import Pagination from "../../ui/Pagination";
 
 function PaymentTable() {
-  const { payments, isLoading } = usePayments();
+  const { payments, isLoading, count } = usePayments();
   if (isLoading) return <Spinner />;
 
   if (!payments.length) return <Empty resource="pagos" />;
@@ -29,6 +30,9 @@ function PaymentTable() {
             <PaymentRow key={payment.id} payment={payment} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

@@ -1,14 +1,30 @@
 import supabase from "./supabase";
+import { PAGE_SIZE } from "../utils/constants";
 
-export default async function getPatients() {
-  const { data, error } = await supabase.from("pacientes").select("*");
+export default async function getPatients({ sortBy, page }) {
+  let query = supabase.from("pacientes").select("*", {
+    count: "exact",
+  });
+
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "desc",
+    });
+
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     console.error(error);
     throw new error("No se han podido cargar los pacientes");
   }
 
-  return data;
+  return { data, count };
 }
 
 export async function deletePatient(IdPatient) {

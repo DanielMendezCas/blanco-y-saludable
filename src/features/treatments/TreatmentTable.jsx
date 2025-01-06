@@ -4,9 +4,10 @@ import Empty from "../../ui/Empty";
 import useTreatments from "./useTreatments";
 import Spinner from "../../ui/Spinner";
 import TreatmentRow from "./TreatmentRow";
+import Pagination from "../../ui/Pagination";
 
 function TreatmentTable() {
-  const { treatments, isLoading } = useTreatments();
+  const { treatments, isLoading, count } = useTreatments();
   if (isLoading) return <Spinner />;
 
   if (!treatments.length) return <Empty resource="tratamientos" />;
@@ -28,6 +29,9 @@ function TreatmentTable() {
             <TreatmentRow key={treatment.id} treatment={treatment} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

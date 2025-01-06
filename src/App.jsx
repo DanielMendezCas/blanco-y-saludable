@@ -1,13 +1,11 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
 import Payments from "./pages/Payments";
 import PageNotFound from "./pages/PageNotFound";
 import Appointment from "./pages/Appointment";
 import Patients from "./pages/Patients";
-import NewUsers from "./pages/Users";
 import Treatment from "./pages/Treatment";
 import Prescription from "./pages/Prescription";
 import Signup from "./pages/Signup";
@@ -42,14 +40,12 @@ function App() {
                 </ProtectedRoute>
               }
             >
-              <Route index element={<Navigate replace to="dashboard" />} />
-              <Route path="dashboard" element={<Dashboard />} />
+              <Route index element={<Navigate replace to="patients" />} />
               <Route path="account" element={<Account />} />
               <Route path="appointment" element={<Appointment />} />
               <Route path="patients" element={<Patients />} />
               <Route path="payments" element={<Payments />} />
               <Route path="treatment" element={<Treatment />} />
-              <Route path="users" element={<NewUsers />} />
               <Route path="prescription" element={<Prescription />} />
             </Route>
             <Route path="login" element={<Login />} />

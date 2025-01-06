@@ -43,10 +43,12 @@ function CreateAppointmentForm({ onCloseModal }) {
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
 
-  const { data: pacientes, isLoading: isLoadingPacientes } = useQuery({
+  const { data: pacientesData, isLoading: isLoadingPacientes } = useQuery({
     queryKey: ["pacientes"],
     queryFn: getPatients,
   });
+
+  const pacientes = pacientesData?.data;
 
   const { mutate, isLoading } = useMutation({
     mutationFn: createAppointment,

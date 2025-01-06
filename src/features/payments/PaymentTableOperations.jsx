@@ -6,27 +6,27 @@ function PaymentTableOperations() {
   return (
     <TableOperations>
       <Filter
-        filterField="status"
+        filterField="estado"
         options={[
           { value: "Todos", label: "Todos" },
-          { value: "Realizado", label: "Realizado" },
-          { value: "Cancelado", label: "Cancelado" },
+          { value: true, label: "Realizado" },
+          { value: false, label: "Cancelado" },
         ]}
       />
 
       <SortBy
         options={[
           {
-            value: "startDate-desc",
+            value: "fecha-asc",
             label: "Ordenar por fecha (más recientes)",
           },
-          { value: "startDate-asc", label: "Ordenar por fecha (más antiguos)" },
+          { value: "fecha-desc", label: "Ordenar por fecha (más antiguos)" },
           {
-            value: "totalPrice-desc",
+            value: "monto-desc",
             label: "Ordenar por monto (descendente)",
           },
           {
-            value: "totalPrice-asc",
+            value: "monto-asc",
             label: "Ordenar por monto (ascendente)",
           },
         ]}

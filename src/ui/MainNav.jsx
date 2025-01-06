@@ -5,7 +5,6 @@ import {
   IoIosMan,
   IoMdClipboard,
   IoIosCalendar,
-  IoIosStats,
   IoMdPaper,
 } from "react-icons/io";
 
@@ -58,12 +57,6 @@ function MainNav() {
   return (
     <nav>
       <NavList>
-        <li>
-          <StyledNavLink to="./dashboard">
-            <IoIosStats />
-            Ingresos
-          </StyledNavLink>
-        </li>
         <li>
           <StyledNavLink to="./patients">
             <IoIosMan />

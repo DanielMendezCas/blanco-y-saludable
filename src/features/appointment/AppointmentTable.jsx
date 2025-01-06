@@ -4,9 +4,10 @@ import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import useAppointments from "./useAppointments";
 import Spinner from "../../ui/Spinner";
+import Pagination from "../../ui/Pagination";
 
 function AppointmentTable() {
-  const { appointments, isLoading } = useAppointments();
+  const { appointments, isLoading, count } = useAppointments();
   if (isLoading) return <Spinner />;
 
   if (!appointments.length) return <Empty resource="citas" />;
@@ -29,6 +30,9 @@ function AppointmentTable() {
             <AppointmentRow key={appointment.id} appointment={appointment} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

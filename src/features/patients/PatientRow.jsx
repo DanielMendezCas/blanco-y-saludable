@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
 import { deletePatient } from "../../services/apiPatients";
 import toast from "react-hot-toast";
+import { calcularEdad } from "../../utils/helpers";
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 1.7fr 2.2fr 1fr 2.5fr 2fr 1fr;
@@ -82,19 +83,6 @@ function PatientRow({ patient }) {
     },
     onError: () => toast.error("El paciente no se ha podido eliminar"),
   });
-
-  const calcularEdad = (fechaNacimiento) => {
-    const hoy = new Date();
-    const nacimiento = new Date(fechaNacimiento);
-    let edad = hoy.getFullYear() - nacimiento.getFullYear();
-    const mes = hoy.getMonth() - nacimiento.getMonth();
-
-    if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
-      edad--;
-    }
-
-    return edad;
-  };
 
   return (
     <TableRow role="table">

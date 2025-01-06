@@ -28,3 +28,21 @@ export const formatCurrency = (value) =>
   new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
     value
   );
+
+// Convertir edad
+export const calcularEdad = (fechaNacimiento) => {
+  if (!fechaNacimiento) return "N/A"; // Si no hay fecha, devuelve "N/A"
+
+  const nacimiento = new Date(fechaNacimiento); // Usa directamente la fecha
+  if (isNaN(nacimiento.getTime())) return "N/A"; // Valida si es una fecha válida
+
+  const hoy = new Date();
+  let edad = hoy.getFullYear() - nacimiento.getFullYear();
+  const mes = hoy.getMonth() - nacimiento.getMonth();
+
+  if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+    edad--;
+  }
+
+  return edad; // Devuelve la edad calculada
+};

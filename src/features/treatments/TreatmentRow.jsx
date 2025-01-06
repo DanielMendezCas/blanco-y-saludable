@@ -98,7 +98,7 @@ function TreatmentRow({
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: (id) => deleteTreatment(id),
     onSuccess: () => {
-      toast.success("Pago eliminado correctamente");
+      toast.success("Tratamiento eliminado correctamente");
       queryClient.invalidateQueries({
         queryKey: ["tratamientos"],
       });
